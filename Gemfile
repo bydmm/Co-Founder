@@ -31,6 +31,7 @@ gem 'jquery-rails' # 引入jQuery
 
 # 开发和测试用的
 group :development, :test do
+  gem 'listen'
   gem 'pry-rails'
   gem 'pry-byebug'
 end
