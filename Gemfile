@@ -1,53 +1,36 @@
 source 'http://gems.ruby-china.org'
 
+# 使用 github: 'rails/rails' 这样的方法引入中间件
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
 
+# 核心组件
+gem 'rails', '~> 5.0.2' # 最新
+gem 'puma', '~> 3.0' # 高速Webserver，但是建议部署在Nginx的反向代理之后
+gem 'bcrypt', '~> 3.1' # 慢哈希加密
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-# Use Puma as the app server
-gem 'puma', '~> 3.0'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+# 数据库相关
+gem 'pg', '0.18.1' # 使用PostgreSQL，和Mysql说拜拜
+gem 'redis', '~> 3.0' # 可持久化的键值对数据库
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# 生产环境部署相关
+gem 'figaro', '~> 1.1' # 管理环境变量
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# 任务队列
+gem 'sinatra', :require => nil  # for sidekiq web in routes
+gem 'sidekiq'
+gem 'sidekiq-failures'
 
+# 前端构建, Rails的前端构建工具还是够用的
+gem 'sass-rails', '~> 5.0'  # Rails Sass支持
+gem 'uglifier', '>= 1.3.0' # 混淆JS
+gem 'coffee-rails', '~> 4.2' # Rails Coffee支持
+gem 'jquery-rails' # 引入jQuery
+
+# 开发和测试用的
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platform: :mri
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
-
-group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '~> 3.0.5'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
